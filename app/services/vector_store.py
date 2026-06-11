@@ -76,9 +76,9 @@ def search_similar_chunks(
     Finds the top_k most similar chunks to the query vector.
     Used in the chat pipeline.
     """
-    results = client.search(
+    results = client.query_points(
         collection_name=settings.QDRANT_COLLECTION,
-        query_vector=query_vector,
+        query=query_vector,
         limit=top_k,
     )
 
@@ -88,5 +88,5 @@ def search_similar_chunks(
             "document_id": hit.payload["document_id"],
             "score": hit.score,
         }
-        for hit in results
+        for hit in results.points
     ]
